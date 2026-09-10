@@ -20,6 +20,8 @@ from launch.conditions import IfCondition
 from launch.conditions import UnlessCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch.substitutions import PathJoinSubstitution
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
@@ -63,7 +65,11 @@ def generate_launch_description():
 
     realsense_node = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [get_package_share_directory('realsense2_camera'), '/launch/rs_launch.py']
+            PathJoinSubstitution([
+                FindPackageShare('realsense2_camera'),
+                'launch',
+                'rs_launch.py'
+            ])
         ),
         condition=IfCondition(LaunchConfiguration('use_d435')),
         launch_arguments={
