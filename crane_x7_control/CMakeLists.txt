@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.20)
 project(crane_x7_control)
 
 # Default to C99
@@ -6,9 +6,9 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++17
+# Default to C++20
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 20)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -32,12 +32,12 @@ target_include_directories(
   PRIVATE
   include
 )
-ament_target_dependencies(
-  ${LIBRARY_NAME}
-  hardware_interface
-  pluginlib
-  rclcpp
-  rt_manipulators_cpp
+target_link_libraries(
+  ${LIBRARY_NAME} PUBLIC
+  hardware_interface::hardware_interface
+  pluginlib::pluginlib
+  rclcpp::rclcpp
+  rt_manipulators_cpp::rt_manipulators_cpp
 )
 
 pluginlib_export_plugin_description_file(hardware_interface crane_x7_hardware.xml)
